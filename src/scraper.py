@@ -12,5 +12,5 @@ class Scraper:
         
         listing_clues = self.driver.find_elements_by_xpath("//span[@class='Clue-text--3lZl7']")
         
-        for x in listing_clues:
-            print(x.text)
+        for texts in listing_clues:
+            print(texts.text)
