@@ -4,7 +4,7 @@ from selenium import webdriver
 
 class Scraper:
     def __init__(self):
-        self.driver = webdriver.Chrome(executable_path=r"./data/chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path=r"../data/chromedriver.exe")
     
     def scrape_nwt(self):
         self.driver.get("https://www.nytimes.com/crosswords/game/mini")
