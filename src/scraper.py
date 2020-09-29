@@ -2,6 +2,7 @@
 
 from selenium import webdriver
 
+
 class Scraper:
     def __init__(self):
         self.driver = webdriver.Chrome(executable_path=r"../data/chromedriver.exe")
@@ -14,3 +15,5 @@ class Scraper:
         
         for texts in listing_clues:
             print(texts.text)
+
+
