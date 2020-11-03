@@ -15,6 +15,8 @@ layout = [
     [sg.Text('Crossword Puzzle Using PySimpleGUI'), sg.Text('', key='-OUTPUT-')],
     [sg.Graph((800, 800), (0, 450), (450, 0), key='-GRAPH-',
               change_submits=True, drag_submits=False)],
+    [sg.Text(''), key='across'],
+    [sg.Text(''), key='down'],
     [sg.Button('Show'), sg.Button('Exit')]
 ]
 
