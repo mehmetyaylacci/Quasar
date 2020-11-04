@@ -28,6 +28,7 @@ layout = [
 
 scraper_obj = sc_bs()
 clues = scraper_obj.scrape_puzzle()
+boxes = scraper_obj.box_scrape()
 
 across_string = "Across\n"
 down_string = "Down\n"
@@ -53,7 +54,7 @@ g = window['graph']
 
 for row in range(5):
     for col in range(5):
-    
+        # im here
         if random.randint(0, 100) > 10:
             g.draw_rectangle((col * PUZZLE_BOX + 5, row * PUZZLE_BOX + 3),
               (col * PUZZLE_BOX + PUZZLE_BOX + 5, row * PUZZLE_BOX + PUZZLE_BOX + 3),

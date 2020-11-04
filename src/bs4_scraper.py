@@ -36,3 +36,23 @@ class Scraper_bs:
             for a_text in all_text:
                 print(a_text.find('text', {'class' : 'Cell-hidden--3xQI1'}))
         return final_answers
+
+    def box_scrape(self):
+        boxes = []
+        completed_url = "https://www.nytimes.com/crosswords/game/mini?playaction=reveal-puzzle"
+        # here we request the answer page from the website
+        soup = BeautifulSoup(requests.get( completed_url).content, 'html.parser')
+        # here we parse the website
+        find_g = soup.find('g', {'data-group': 'cells'})
+        all_answers = find_g.findAll('g')
+        for box in all_answers:
+            sub_of_box = box.findAll('text')
+            if len(sub_of_box) > 0:
+                if box.text == '':
+                    boxes.append('empty')
+                else:
+                    boxes.append(box.text)
+            else:
+                boxes.append('black')
+        
+        return boxes
