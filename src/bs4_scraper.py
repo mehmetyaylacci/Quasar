@@ -24,9 +24,9 @@ class Scraper_bs:
 
     def scrape_sols(self):
         final_answers = []
-        completed_url = self.url + "?playaction=reveal-puzzle"
         # here we request the answer page from the website
-        soup = BeautifulSoup(requests.get(completed_url).content, 'html.parser')
+        soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
+
         # here we parse the website
         find_g = soup.find('g', {'data-group' : 'cells'})
         all_answers = find_g.findAll('g')
