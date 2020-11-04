@@ -50,17 +50,27 @@ class Scraper_bs:
         # click reveal
         self.driver.find_element_by_xpath("//button[text()='reveal']").click()
         
-        # time.sleep(1)
+        time.sleep(2)
 
         # click reveal
-        self.driver.find_element_by_xpath("//a[text()='Puzzle']").click()
+        self.driver.find_elements_by_xpath("//a[text()='Puzzle']")[1].click()
+
+        time.sleep(2)
+
         # click reveal
-        self.driver.find_element_by_xpath("//button[text()='Reveal']").click()
+        self.driver.find_element_by_xpath("//span[text()='Reveal']").click()
+        
+        time.sleep(2)
+        
         # click close
         self.driver.find_element_by_xpath(
-            "//span[class='ModalBody-closeX--2Fmp7']").click()
+            "//span[@class='ModalBody-closeX--2Fmp7']").click()
         
+        html = driver.page_source
+        soup = BeautifulSoup(html)
 
+        return soup
+        
     def scrape_puzzle_shape(self):
         final_shape = []
         soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
