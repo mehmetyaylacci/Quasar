@@ -24,7 +24,7 @@ class Scraper_bs:
 
     def scrape_sols(self):
         final_answers = []
-        completed_url = "https://www.nytimes.com/crosswords/game/mini?playaction=reveal-puzzle"
+        completed_url = self.url + "?playaction=reveal-puzzle"
         # here we request the answer page from the website
         soup = BeautifulSoup(requests.get(completed_url).content, 'html.parser')
         # here we parse the website
@@ -36,3 +36,30 @@ class Scraper_bs:
             for a_text in all_text:
                 print(a_text.find('text', {'class' : 'Cell-hidden--3xQI1'}))
         return final_answers
+
+    def scrape_puzzle_shape(self):
+        final_shape = []
+        soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
+        whole = soup.find('g', {'data-group' : 'cells'})
+        all_g = whole.findAll('g')
+        for a_g in all_g:
+            current_rect = a_g.find('rect')
+            if 'Cell-block--1oNaD' in current_rect['class']:
+                final_shape.append(1)
+            else:
+                final_shape.append(0)
+
+        return final_shape
+
+    def scrape_puzzle_numbers(self):
+        final_numbers = []
+        soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
+        whole = soup.find('g', {'data-group' : 'cells'})
+        all_g = whole.findAll('g')
+        for a_g in all_g:
+            current_number = a_g.find('text', {'font-size' : '33.33'})
+            if current_number != None:
+                final_numbers.append(int(current_number.get_text()))
+            else:
+                final_numbers.append(-1)
+        return final_numbers

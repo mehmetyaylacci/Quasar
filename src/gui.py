@@ -8,12 +8,63 @@ PUZZLE_BOX = 130
 
 # fonts
 font_letter = ("Arial Black", 32)
-font_number = ("Courier New", 18)
-font_clues = ('Courier New', 16)
+font_number = ("Arial", 20)
+font_clues = ('Times New Roman', 16)
 
 # themes and colors
 sg.change_look_and_feel("NeutralBlue")
 
+# scraper
+scraper_obj = sc_bs()
+clues = scraper_obj.scrape_puzzle()
+blacks = scraper_obj.scrape_puzzle_shape()
+numbers = scraper_obj.scrape_puzzle_numbers()
+
+#
+# -----------------------FUNCTIONS-----------------------
+#
+
+'''
+Function that displays the puzzle on the GUI
+'''
+def display_puzzle():
+    counter = 0
+    for row in range(5):
+        for col in range(5):
+            if blacks[counter] == 1:
+                g.draw_rectangle((col * PUZZLE_BOX + 5, row * PUZZLE_BOX + 3),
+                (col * PUZZLE_BOX + PUZZLE_BOX + 5, row * PUZZLE_BOX + PUZZLE_BOX + 3),
+                line_color='black', fill_color='black')
+            else:
+                g.draw_rectangle((col * PUZZLE_BOX + 5, row * PUZZLE_BOX + 3),
+                (col * PUZZLE_BOX + PUZZLE_BOX + 5, row * PUZZLE_BOX + PUZZLE_BOX + 3),
+                line_color='black', fill_color='white')
+            if numbers[counter] != -1:
+                g.draw_text('{}'.format(numbers[counter]), (col * PUZZLE_BOX + 20,
+                row * PUZZLE_BOX + 20),
+                font=font_number)
+            counter += 1
+
+
+def display_puzzle_answers():
+    for row in range(5):
+        for col in range(5):            
+            g.draw_text('{}'.format('A'), (col * PUZZLE_BOX + (PUZZLE_BOX/2),
+            row * PUZZLE_BOX + (PUZZLE_BOX/2)), 
+            font=font_letter)
+  
+
+def clear_puzzle():
+    for row in range(5):
+        for col in range(5):
+            g.draw_rectangle((col * PUZZLE_BOX + 5, row * PUZZLE_BOX + 3), 
+            (col * PUZZLE_BOX + PUZZLE_BOX + 5, row * PUZZLE_BOX + PUZZLE_BOX + 3),
+                line_color='black', fill_color='white')
+    display_puzzle()
+
+#
+# -----------------------END-----------------------
+#
 
 
 layout = [
@@ -22,12 +73,10 @@ layout = [
          key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', 
             size=(30, 10), font=font_clues), sg.Text('', key='down', size=(30, 10),
              font=font_clues)],
-        [sg.Button('Clear'), sg.Button('Exit')]])
+        [sg.Button('Show Answers'), sg.Button('Clear'), sg.Button('Exit')]])
     ]
 ]
 
-scraper_obj = sc_bs()
-clues = scraper_obj.scrape_puzzle()
 
 across_string = "Across\n"
 down_string = "Down\n"
@@ -51,37 +100,16 @@ window.FindElement('down').update(down_string)
 g = window['graph']
 
 
-for row in range(5):
-    for col in range(5):
-    
-        if random.randint(0, 100) > 10:
-            g.draw_rectangle((col * PUZZLE_BOX + 5, row * PUZZLE_BOX + 3),
-              (col * PUZZLE_BOX + PUZZLE_BOX + 5, row * PUZZLE_BOX + PUZZLE_BOX + 3),
-               line_color='black', fill_color='white')
-    
-        else:
-            g.draw_rectangle((col * PUZZLE_BOX + 5, row * PUZZLE_BOX + 3),
-             (col * PUZZLE_BOX + PUZZLE_BOX + 5, row * PUZZLE_BOX + PUZZLE_BOX + 3),
-              line_color='black', fill_color='black')
-    
-        g.draw_text('{}'.format(row * 5 + col + 1), (col * PUZZLE_BOX + 20,
-        row * PUZZLE_BOX + 20),
-        font=font_number)
-        g.draw_text('{}'.format('A'), (col * PUZZLE_BOX + (PUZZLE_BOX/2),
-        row * PUZZLE_BOX + (PUZZLE_BOX/2)), 
-        font=font_letter)
-
+display_puzzle()
 
 while True:
     event, values = window.read()
-
+    if event in (None, "Show Answers"):
+        display_puzzle_answers()
     if event in (None, "Close"):
         break
     if event in (None, "Clear"):
-        for row in range(5):
-            for col in range(5):
-                g.draw_rectangle((col * PUZZLE_BOX + 5, row * PUZZLE_BOX + 3), (col * PUZZLE_BOX +
-                                        PUZZLE_BOX + 5, row * PUZZLE_BOX + PUZZLE_BOX + 3), line_color='black', fill_color='white')
+        clear_puzzle()
     if event in (None, "Exit"):
         break
 window.close()
