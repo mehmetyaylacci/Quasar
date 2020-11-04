@@ -4,13 +4,13 @@ from bs4_scraper import Scraper_bs as sc_bs
 
 BOX_SIZE = 80
 
-sg.change_look_and_feel("BlackWhite")
+sg.change_look_and_feel("NeutralBlue")
 
 layout = [
     [sg.Frame('',[
-        [sg.Graph((1280, 720), (0, 720), (1280, 0), key='graph',
-            change_submits=True, drag_submits=False), sg.Text('', key='across'), 
-            sg.Text('', key='down')],
+        [sg.Graph((1280, 720), (0, 0), (0, 0), key='graph',
+            change_submits=True, drag_submits=False), sg.Text('', key='across', 
+            size=(30, 10)), sg.Text('', key='down', size=(30, 10))],
         [sg.Button('Clear'), sg.Button('Exit')]])
     ]
 ]
@@ -23,9 +23,9 @@ down_string = "Down\n"
 
 for clue in clues:
     if clue[2] == 'A':
-        across_string += clue[0] + ' ' + clue[1] + '\n'
+        across_string += clue[0] + ') ' + clue[1] + '\n'
     elif clue[2] == 'D':
-        down_string += clue[0] + ' ' + clue[1] + '\n'
+        down_string += clue[0] + ') ' + clue[1] + '\n'
 
 print(across_string)
 print(down_string)
