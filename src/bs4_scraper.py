@@ -5,13 +5,15 @@ import time
 
 class Scraper_bs:
 
+
+    # Constructor
     def __init__(self):
         url = "https://www.nytimes.com/crosswords/game/mini"
         self.url = url
-        # webdriver path
-        self.driver = webdriver.Chrome(
-            executable_path=r"./data/chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path=r"../data/chromedriver.exe")
 
+
+    # This function scrapes the clues of the puzzle.
     def scrape_puzzle(self):
         final_clues = []
         soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
@@ -27,50 +29,48 @@ class Scraper_bs:
                     final_clues.append([number, ext_clue, 'D'])
         return final_clues
 
-    # def scrape_sols(self):
-    #     final_answers = []
-    #     completed_url = self.url + "?playaction=reveal-puzzle"
-    #     # here we request the answer page from the website
-    #     soup = BeautifulSoup(requests.get(completed_url).content, 'html.parser')
-    #     # here we parse the website
-    #     find_g = soup.find('g', {'data-group' : 'cells'})
-    #     all_answers = find_g.findAll('g')
-    #     print(all_answers)
-    #     for an_answer in all_answers:
-    #         all_text = an_answer.findAll('text')
-    #         for a_text in all_text:
-    #             print(a_text.find('text', {'class' : 'Cell-hidden--3xQI1'}))
-    #     return final_answers
 
-    # mehmet's solution
+    # This function scrapes the solutions of the puzzle
     def scrape_sols(self):
+        final_answers = []
+        soup = self.get_sol_page()
+        whole = soup.find('g', {'data-group' : 'cells'})
+        all_g = whole.findAll('g')
+        for a_g in all_g:
+            if len(a_g.findAll('text', {'class' : 'Cell-hidden--3xQI1'})) == 1:
+                text_extract = a_g.findAll('text', {'class' : 'Cell-hidden--3xQI1'})
+                final_answers.append(text_extract[0].get_text())
+            elif len(a_g.findAll('text', {'class' : 'Cell-hidden--3xQI1'})) == 2:
+                text_extract = a_g.findAll('text', {'class' : 'Cell-hidden--3xQI1'})
+                final_answers.append(text_extract[1].get_text())
+            else:
+                final_answers.append(-1)
+        self.driver.quit()
+        print(final_answers)
+        return final_answers
+
+
+    # This function gets the solution page by clicking the necessary buttons.
+    def get_sol_page(self):
         self.driver.get("https://www.nytimes.com/crosswords/game/mini")
-        # click on first question
+
         self.driver.find_element_by_xpath("//span[text()='OK']").click()
-        # click reveal
+
         self.driver.find_element_by_xpath("//button[text()='reveal']").click()
         
-        time.sleep(2)
-
-        # click reveal
         self.driver.find_elements_by_xpath("//a[text()='Puzzle']")[1].click()
 
-        time.sleep(2)
-
-        # click reveal
         self.driver.find_element_by_xpath("//span[text()='Reveal']").click()
         
-        time.sleep(2)
-        
-        # click close
-        self.driver.find_element_by_xpath(
-            "//span[@class='ModalBody-closeX--2Fmp7']").click()
-        
-        html = driver.page_source
-        soup = BeautifulSoup(html)
+        self.driver.find_element_by_xpath("//span[@class='ModalBody-closeX--2Fmp7']").click()
+        html = self.driver.page_source
+        soup = BeautifulSoup(html, "html.parser")
 
         return soup
-        
+
+
+    # Function to scrape the shape of the puzzle, which means this function returns
+    # where the black tiles exist
     def scrape_puzzle_shape(self):
         final_shape = []
         soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
@@ -85,6 +85,8 @@ class Scraper_bs:
 
         return final_shape
 
+
+    # This function finds the numbers that are in the top left corners of the boxes
     def scrape_puzzle_numbers(self):
         final_numbers = []
         soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
@@ -97,6 +99,3 @@ class Scraper_bs:
             else:
                 final_numbers.append(-1)
         return final_numbers
-
-test = Scraper_bs()
-test.scrape_sols()
