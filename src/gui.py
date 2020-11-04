@@ -6,7 +6,7 @@ from datetime import datetime
 import threading
 
 # constants
-PUZZLE_BOX = 130
+PUZZLE_BOX = 100
 
 # fonts
 font_letter = ("Arial Black", 40)
@@ -18,8 +18,8 @@ sg.change_look_and_feel("NeutralBlue")
 
 layout = [
     [sg.Frame('', [
-        [sg.Graph(canvas_size=(1000, PUZZLE_BOX * 5 + 20), graph_bottom_left=(0, PUZZLE_BOX * 5 + 20), graph_top_right=(1000, 0),
-        key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', size=(30, 10), font=font_clues), 
+        [sg.Graph(canvas_size=(PUZZLE_BOX * 5, PUZZLE_BOX * 5), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
+        key='graph', change_submits=True, drag_submits=False, pad=((30,0),(0,30))), sg.Text('', key='across', size=(30, 10), font=font_clues), 
         sg.Text('', key='down', size=(30, 10), font=font_clues)], [sg.Text('', size=(20, 2), pad=((500, 0), (0, 0)), key='time')],
         [sg.Button('Show Answers'), sg.Button('Clear'), sg.Button('Exit')]], element_justification="left")
     ]
@@ -27,7 +27,7 @@ layout = [
 
 sg.Input(justification='center', size=(100, 1))
 
-window = sg.Window('XOxygen Puzzle Solver', layout, finalize=True)
+window = sg.Window('XOxygen Puzzle Solver', layout, finalize=True, size=(1280, 720))
 
 g = window['graph']
 
