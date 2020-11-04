@@ -70,9 +70,9 @@ def clear_puzzle():
 layout = [
     [sg.Frame('',[
         [sg.Graph(canvas_size=(1000, 720), graph_bottom_left=(0, 720), graph_top_right=(1000, 0),
-         key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', 
-            size=(30, 10), font=font_clues), sg.Text('', key='down', size=(30, 10),
-             font=font_clues)],
+         key='graph', change_submits=True, drag_submits=False)],
+        [sg.Text('', key='across', size=(30, 10), font=font_clues)], 
+        [sg.Text('', key='down', size=(30, 10),font=font_clues)],
         [sg.Button('Show Answers'), sg.Button('Clear'), sg.Button('Exit')]])
     ]
 ]

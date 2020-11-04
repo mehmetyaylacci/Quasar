@@ -1,11 +1,16 @@
 from bs4 import BeautifulSoup
 import requests
+from selenium import webdriver 
+import time
 
 class Scraper_bs:
 
     def __init__(self):
         url = "https://www.nytimes.com/crosswords/game/mini"
         self.url = url
+        # webdriver path
+        self.driver = webdriver.Chrome(
+            executable_path=r"./data/chromedriver.exe")
 
     def scrape_puzzle(self):
         final_clues = []
@@ -22,20 +27,39 @@ class Scraper_bs:
                     final_clues.append([number, ext_clue, 'D'])
         return final_clues
 
+    # def scrape_sols(self):
+    #     final_answers = []
+    #     completed_url = self.url + "?playaction=reveal-puzzle"
+    #     # here we request the answer page from the website
+    #     soup = BeautifulSoup(requests.get(completed_url).content, 'html.parser')
+    #     # here we parse the website
+    #     find_g = soup.find('g', {'data-group' : 'cells'})
+    #     all_answers = find_g.findAll('g')
+    #     print(all_answers)
+    #     for an_answer in all_answers:
+    #         all_text = an_answer.findAll('text')
+    #         for a_text in all_text:
+    #             print(a_text.find('text', {'class' : 'Cell-hidden--3xQI1'}))
+    #     return final_answers
+
+    # mehmet's solution
     def scrape_sols(self):
-        final_answers = []
-        completed_url = self.url + "?playaction=reveal-puzzle"
-        # here we request the answer page from the website
-        soup = BeautifulSoup(requests.get(completed_url).content, 'html.parser')
-        # here we parse the website
-        find_g = soup.find('g', {'data-group' : 'cells'})
-        all_answers = find_g.findAll('g')
-        print(all_answers)
-        for an_answer in all_answers:
-            all_text = an_answer.findAll('text')
-            for a_text in all_text:
-                print(a_text.find('text', {'class' : 'Cell-hidden--3xQI1'}))
-        return final_answers
+        self.driver.get("https://www.nytimes.com/crosswords/game/mini")
+        # click on first question
+        self.driver.find_element_by_xpath("//span[text()='OK']").click()
+        # click reveal
+        self.driver.find_element_by_xpath("//button[text()='reveal']").click()
+        
+        # time.sleep(1)
+
+        # click reveal
+        self.driver.find_element_by_xpath("//a[text()='Puzzle']").click()
+        # click reveal
+        self.driver.find_element_by_xpath("//button[text()='Reveal']").click()
+        # click close
+        self.driver.find_element_by_xpath(
+            "//span[class='ModalBody-closeX--2Fmp7']").click()
+        
 
     def scrape_puzzle_shape(self):
         final_shape = []
@@ -63,3 +87,6 @@ class Scraper_bs:
             else:
                 final_numbers.append(-1)
         return final_numbers
+
+test = Scraper_bs()
+test.scrape_sols()
