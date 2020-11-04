@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 import random
 from bs4_scraper import Scraper_bs as sc_bs
-
+import time
 
 # constants
 PUZZLE_BOX = 130
@@ -14,20 +14,37 @@ font_clues = ('Times New Roman', 16)
 # themes and colors
 sg.change_look_and_feel("NeutralBlue")
 
-# scraper
-scraper_obj = sc_bs()
-clues = scraper_obj.scrape_puzzle()
-blacks = scraper_obj.scrape_puzzle_shape()
-numbers = scraper_obj.scrape_puzzle_numbers()
+layout = [
+    [sg.Frame('',[
+        [sg.Graph(canvas_size=(1000, 720), graph_bottom_left=(0, 720), graph_top_right=(1000, 0),
+         key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', 
+            size=(30, 10), font=font_clues), sg.Text('', key='down', size=(30, 10),
+             font=font_clues)],
+        [sg.Button('Show Answers'), sg.Button('Clear'), sg.Button('Exit')]])
+    ]
+]
+
+sg.Input(justification='center', size=(100, 1))
+
+window = sg.Window('XOxygen Puzzle Solver', layout, finalize=True)
+
+g = window['graph']
+
 
 #
 # -----------------------FUNCTIONS-----------------------
 #
 
-'''
-Function that displays the puzzle on the GUI
-'''
+
+def create_scraper():
+    scraper_obj = sc_bs()
+    clues = scraper_obj.scrape_puzzle()
+    blacks = scraper_obj.scrape_puzzle_shape()
+    numbers = scraper_obj.scrape_puzzle_numbers()
+    return [clues, blacks, numbers]
+
 def display_puzzle():
+
     counter = 0
     for row in range(5):
         for col in range(5):
@@ -66,6 +83,7 @@ def clear_puzzle():
 # -----------------------END-----------------------
 #
 
+<<<<<<< HEAD
 
 layout = [
     [sg.Frame('',[
@@ -77,6 +95,14 @@ layout = [
     ]
 ]
 
+=======
+print("\n-------------\nNow scraping the NYT webpage for the puzzle\n-------------")
+scraped = create_scraper()
+print("Scraping done!\n-------------")
+clues = scraped[0]
+blacks = scraped[1]
+numbers = scraped[2]
+>>>>>>> 9ff7f33ab608788043defb77c8b1044c5b75cc5d
 
 across_string = "Across\n"
 down_string = "Down\n"
@@ -87,29 +113,25 @@ for clue in clues:
     elif clue[2] == 'D':
         down_string += clue[0] + ') ' + clue[1] + '\n'
 
-print(across_string)
-print(down_string)
-
-sg.Input(justification='center', size=(100, 1))
-
-window = sg.Window('XOxygen Puzzle Solver', layout, finalize=True)
-
+print("Displaying the clues\n-------------")
 window.FindElement('across').update(across_string)
 window.FindElement('down').update(down_string)
 
-g = window['graph']
-
-
+print("Displaying the puzzle\n-------------")
 display_puzzle()
 
 while True:
     event, values = window.read()
     if event in (None, "Show Answers"):
+        print("Showing answers\n-------------")
         display_puzzle_answers()
-    if event in (None, "Close"):
-        break
     if event in (None, "Clear"):
+        print("Clearing the puzzle screen\n-------------")
         clear_puzzle()
     if event in (None, "Exit"):
+        print('Exiting\n-------------')
+        break
+    if event in (None, "Close"):
+        print('Exiting\n-------------')
         break
 window.close()
