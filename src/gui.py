@@ -21,7 +21,7 @@ layout = [
         [sg.Graph(canvas_size=(1000, PUZZLE_BOX * 5 + 20), graph_bottom_left=(0, PUZZLE_BOX * 5 + 20), graph_top_right=(1000, 0),
         key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', size=(30, 10), font=font_clues), 
         sg.Text('', key='down', size=(30, 10), font=font_clues)], [sg.Text('', size=(20, 2), pad=((500, 0), (0, 0)), key='time')],
-        [sg.Button('Show Answers'), sg.Button('Clear'), sg.Button('Exit')]], element_justification="left", vertical_alignment="center")
+        [sg.Button('Show Answers'), sg.Button('Clear'), sg.Button('Exit')]], element_justification="left")
     ]
 ]
 
