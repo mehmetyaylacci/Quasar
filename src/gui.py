@@ -25,7 +25,7 @@ layout = [
     ]
 ]
 
-sg.Input(justification='center', size=(100, 1))
+sg.Input(justification = 'center', size=(100, 1))
 
 window = sg.Window('XOxygen Puzzle Solver', layout, finalize=True, size=(1280, 700))
 
