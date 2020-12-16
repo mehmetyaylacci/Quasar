@@ -17,6 +17,7 @@ font_clues = ('Times New Roman', 16)
 # themes and colors
 sg.change_look_and_feel("NeutralBlue")
 
+#layout of the puzzle designed according to the NYTimes puzzle template
 layout = [
     [sg.Frame('', [
         [sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
@@ -79,13 +80,16 @@ def display_puzzle_answers():
                 font=font_letter)
             counter += 1
 
+#function to display the answers of the scraped
+#puzzle found by using nlp
 def display_puzzle_answers_nlp(solving):
     counter = 0
     letters = []
     for i in solving:
-        letter = i[1].split()
-        letters.append(letter)
-    print(letters)
+        words = i[1]
+        for j in words:
+            for letter in j:
+                letters.append(letter.upper())
     for x in range(5):
         for y in range(5):
             if letters[counter] != '-1':
