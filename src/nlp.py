@@ -42,6 +42,8 @@ class NLP:
                 # if len(word_cn) == clue_len and re.match(known_re, word_cn):
                 if re.match(known_re, word_cn):
                     matched.append(word_cn[:clue_len])
+                if len(word_cn) == clue_len - 1:
+                    matched.append(word_cn + "s")
 
                 visited_temp.append(word_cn)
 
@@ -60,9 +62,10 @@ class NLP:
 
     def get_scraped_clues(self):
         scraper_obj = sc_bs()
-        clues = scraper_obj.scrape_puzzle()
-        clue_lengths = self.clue_lengths(scraper_obj.scrape_puzzle_shape(), len(clues))
-        return [clues, clue_lengths]
+        self.clues = scraper_obj.scrape_puzzle()
+        self.shape = scraper_obj.scrape_puzzle_shape()
+        clue_lengths = self.clue_lengths(self.shape, len(self.clues))
+        return [self.clues, clue_lengths]
 
     def clue_lengths(self, shape_clues, num_clues):
         rs = np.reshape(shape_clues, (5,5))
@@ -82,15 +85,17 @@ class NLP:
 
     def send_clues(self):
         combo = self.get_scraped_clues()
-        clues = self.purify_clues(combo[0])
+        clues_temp = self.purify_clues(combo[0])
         clue_lengths = combo[1]
         ct = 0
-        matched = []
-        for a_clue in clues:
+        for a_clue in clues_temp:
             print(a_clue)
-            matched.append(self.datamuse_loop(next_iteration = [a_clue[1]], clue_len = clue_lengths[ct], known_re = ""))
+            temp = self.datamuse_loop(next_iteration = [a_clue[1]], clue_len = clue_lengths[ct], known_re = "")
+            self.clues[ct][0] = temp
             ct += 1
-        return matched
+        
+        # print(self.clues)
+        return self.clues
         
 
     def purify_clues(self, clues):
@@ -105,12 +110,32 @@ class NLP:
             purified_clues.append(stringified)
         return purified_clues
 
+    def fill_first(self):
+
+        answers = []
+        for i in self.clues:
+            check = i[0][0]
+            answers.append(check)
+            # print(check)
+        return answers
+
+'''
+[0, 0, 0, 1, 1]
+[0, 0, 0, 0, 1]
+[0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0]
+'''
+
+
+
+
 def test():
     nlp = NLP()
-
-    some_regex = r"^[a-z]{5,}" 
-
-    print(nlp.send_clues())
+    nlp.send_clues()
+    print(nlp.fill_first())
+    # print(nlp.get_scraped_clues())
+    # print(nlp.send_clues())
     # answer = nlp.datamuse_loop(next_iteration = ["Salad green peppery taste"], clue_len = 5, known_re = some_regex)
 
     # print(answer)

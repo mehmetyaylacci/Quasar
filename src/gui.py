@@ -4,6 +4,7 @@ from bs4_scraper import Scraper_bs as sc_bs
 import time
 from datetime import datetime
 import threading
+from naturl import NLP
 
 # constants
 PUZZLE_BOX = 100
@@ -78,6 +79,20 @@ def display_puzzle_answers():
                 font=font_letter)
             counter += 1
 
+def display_puzzle_answers_nlp(solving):
+    counter = 0
+    letters = []
+    for i in solving:
+        letter = i[1].split()
+        letters.append(letter)
+    print(letters)
+    for x in range(5):
+        for y in range(5):
+            if letters[counter] != '-1':
+                g.draw_text('{}'.format(letters[counter]), (y * PUZZLE_BOX + (PUZZLE_BOX/2),
+                x * PUZZLE_BOX + (PUZZLE_BOX/2)), 
+                font=font_letter)
+            counter += 1
 
 # Function to clear the puzzle screen (gets rid of letters inputted)
 def clear_puzzle():
@@ -110,6 +125,11 @@ letters = scraped[3]
 across_string = "Across\n"
 down_string = "Down\n"
 
+print("Scraping done!\n-------------")
+
+nlp_obj = NLP()
+solving = nlp_obj.initiate_guessing()
+
 for clue in clues:
     if clue[2] == 'A':
         across_string += clue[0] + ') ' + clue[1] + '\n'
@@ -124,8 +144,9 @@ window.FindElement('time').update(time_func())
 
 print("Displaying the puzzle\n-------------")
 display_puzzle()
-print("Clearing the puzzle screen\n-------------")
-display_puzzle_answers()
+print("Displaying the puzzle answers as solved by the system\n-------------")
+# display_puzzle_answers()
+display_puzzle_answers_nlp(solving)
 
 while True:
     event, values = window.read()
