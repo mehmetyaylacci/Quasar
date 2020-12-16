@@ -1,27 +1,34 @@
-import nltk
-import gensim
-import gensim.downloader as api
-from nltk.tokenize import word_tokenize
+# import gensim
+# import gensim.downloader as api
+# from nltk.tokenize import word_tokenize
 # from nltk.corpus import stopwords
-import string
+# import string
+# import nltk
+import json
+from urllib import request
 
-clue = "mehmet is sexy"
-word_vectors = api.load("glove-wiki-gigaword-50")
+lookup = "series"
+url = "https://api.datamuse.com/words?rel_gen=" + lookup + "&max=999"
+response = request.urlopen(url)
+data = json.loads(response.read())
 
-stopwords = nltk.download('stopwords')
+res = []
+for i in data:
+  res.append(i["word"])
+  if i["word"] == "maths":
+    print("siktik")
 
+print(res)
+# print(res)
 
-stop = stopwords.words('english') + list(string.punctuation)
-guess_length = 10  # Length of word required for our crossword
-topn = 100  # No. of words to be returned by Gensim's most_similar()
+# from datamuse import datamuse
 
-pos_words = [word for word in word_tokenize(clue.lower()) if word not in stop]
-
-probable_guesses = [word for word in word_vectors.most_similar(
-    positive=pos_words, topn=topn) if len(word[0]) == guess_length]
-
-print(probable_guesses)
-
-# class NLP:
-#     def __init__(self):
-#         //
+# api = datamuse.Datamuse()
+# pipi = api.words(rel_ml='bashful')
+# print(pipi)
+'''
+for s in word_sent:
+  for word in s:
+    if word not in self._stopwords:
+      freq[word] += 1
+'''
