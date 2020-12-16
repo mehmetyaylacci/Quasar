@@ -21,7 +21,7 @@ layout = [
         [sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
         key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', size=(30, 10), font=font_clues), 
         sg.Text('', key='down', size=(30, 10), font=font_clues)], [sg.Text('', size=(20, 2), pad=((350, 0), (0, 0)), key='time')],
-        [sg.Button('Show Answers'), sg.Button('Clear'), sg.Button('Exit')]], element_justification="left")
+        [sg.Button('Exit')]], element_justification="left")
     ]
 ]
 
@@ -124,15 +124,17 @@ window.FindElement('time').update(time_func())
 
 print("Displaying the puzzle\n-------------")
 display_puzzle()
+print("Clearing the puzzle screen\n-------------")
+display_puzzle_answers()
 
 while True:
     event, values = window.read()
-    if event in (None, "Show Answers"):
-        print("Showing answers\n-------------")
-        display_puzzle_answers()
-    if event in (None, "Clear"):
-        print("Clearing the puzzle screen\n-------------")
-        clear_puzzle()
+    # if event in (None, "Show Answers"):
+    #     print("Showing answers\n-------------")
+    #     display_puzzle_answers()
+    # if event in (None, "Clear"):
+    #     print("Clearing the puzzle screen\n-------------")
+    #     clear_puzzle()
     if event in (None, "Exit"):
         print('Exiting\n-------------')
         break

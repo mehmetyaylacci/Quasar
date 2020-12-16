@@ -10,7 +10,7 @@ class Scraper_bs:
     def __init__(self):
         url = "https://www.nytimes.com/crosswords/game/mini"
         self.url = url
-        self.driver = webdriver.Chrome(executable_path=r"./data/chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path=r"../data/chromedriver.exe")
 
 
     # This function scrapes the clues of the puzzle.
@@ -84,7 +84,7 @@ class Scraper_bs:
                 final_shape.append(0)
 
         return final_shape
-
+        
 
     # This function finds the numbers that are in the top left corners of the boxes
     def scrape_puzzle_numbers(self):
