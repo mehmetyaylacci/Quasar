@@ -1,3 +1,8 @@
+# @authors: 
+# Burak Turksever
+# Mehmet Yaylaci
+# Eralp Kumbasar
+
 from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver 
@@ -53,7 +58,6 @@ class Scraper_bs:
     # This function gets the solution page by clicking the necessary buttons.
     def get_sol_page(self):
         self.driver.get("https://www.nytimes.com/crosswords/game/mini")
-
         self.driver.find_element_by_xpath("//span[text()='OK']").click()
 
         self.driver.find_element_by_xpath("//button[text()='reveal']").click()
