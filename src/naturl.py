@@ -127,6 +127,7 @@ class NLP:
                     temp.append([purified_clues[ct], j + "s", 0.8])
                 elif len(j) > lens[ct]:
                     temp.append([purified_clues[ct], j[:lens[ct]], 0.5])
+            ct += 1
             final_g.append(temp)
             ct += 1
         max_val = 0
@@ -139,5 +140,9 @@ class NLP:
             if max_obj not in rtr:
                 rtr.append(max_obj)    
             max_val = 0
+<<<<<<< HEAD
             print(max_obj)
         return rtr
+=======
+        return rtr
+>>>>>>> 216c53052be1e48b510824fbd41cfa79b5878648
