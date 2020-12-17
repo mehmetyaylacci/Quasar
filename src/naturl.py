@@ -46,6 +46,7 @@ class NLP:
         data = json.loads(response.read())
         for j in data:
             results.append(j["word"])
+        print(results)
         return results
 
     '''
@@ -120,6 +121,7 @@ class NLP:
         for guess in guesses:
             temp = []
             for j in guess:
+                print(j)
                 if len(j) == lens[ct]:
                     temp.append([purified_clues[ct], j, 1])
                 elif len(j) == lens[ct] - 1:
@@ -127,7 +129,7 @@ class NLP:
                 elif len(j) > lens[ct]:
                     temp.append([purified_clues[ct], j[:lens[ct]], 0.5])
             final_g.append(temp)
-
+            ct += 1
         max_val = 0
         rtr = []
         for i in final_g:
@@ -136,6 +138,8 @@ class NLP:
                     max_obj = j
                     max_val = j[2]
             if max_obj not in rtr:
-                rtr.append(max_obj)
+                rtr.append(max_obj)    
             max_val = 0
+            print(max_obj)
+        # print(rtr)
         return rtr

@@ -34,7 +34,7 @@ layout = [
 
 sg.Input(justification = 'center', size=(100, 1))
 
-window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1280, 700))
+window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1400, 700))
 
 g = window['graph']
 
