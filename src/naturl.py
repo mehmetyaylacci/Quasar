@@ -58,7 +58,7 @@ class NLP:
         for a_clue in clues:
             text = (a_clue[1].translate(str.maketrans('', '', string.punctuation))).lower()
             tokenized = word_tokenize(text)
-            with open("stop_words.txt", "r") as f:
+            with open("src/stop_words.txt", "r") as f:
                 stopwords = f.read().split("\n")
                 stopwords_removed = [word for word in tokenized if not word in stopwords]
                 stringified = ""

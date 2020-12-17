@@ -10,7 +10,7 @@ class Scraper_bs:
     def __init__(self):
         url = "https://www.nytimes.com/crosswords/game/mini"
         self.url = url
-        self.driver = webdriver.Chrome(executable_path=r"../data/chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path=r"data/chromedriver.exe")
 
 
     # This function scrapes the clues of the puzzle.
