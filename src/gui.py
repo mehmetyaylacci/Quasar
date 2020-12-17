@@ -59,6 +59,7 @@ Displays the puzzle grid, including the black slots in their places, also puttin
 the numbers to associate the places of the words with the given clues
 '''
 def display_puzzle():
+    print("Displaying the puzzle grid...\n-------------")
     counter = 0
     for x in range(5):
         for y in range(5):
@@ -93,7 +94,7 @@ def display_puzzle_answers():
 #puzzle found using nlp, for comparison with the official solution to
 #test the success of the nlp algorithm
 def display_puzzle_answers_nlp(solving):
-    # print(solving)
+    print("Putting the answers in their proper places...\n-------------")
     counter = 0
     letters = []
     black_ct = 0

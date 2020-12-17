@@ -15,6 +15,7 @@ class Scraper_bs:
 
     # This function scrapes the clues of the puzzle.
     def scrape_puzzle(self):
+        print("Scraping the puzzle...\n-------------")
         final_clues = []
         soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
         all_clues_lists = soup.findAll('ol', {'class' : 'ClueList-list--2dD5-'})
@@ -32,6 +33,7 @@ class Scraper_bs:
 
     # This function scrapes the solutions of the puzzle
     def scrape_sols(self):
+        print("Scraping solutions...\n-------------")
         final_answers = []
         soup = self.get_sol_page()
         whole = soup.find('g', {'data-group' : 'cells'})
@@ -52,6 +54,7 @@ class Scraper_bs:
 
     # This function gets the solution page by clicking the necessary buttons.
     def get_sol_page(self):
+        print("Getting the solution page...\n-------------")
         self.driver.get("https://www.nytimes.com/crosswords/game/mini")
 
         self.driver.find_element_by_xpath("//span[text()='OK']").click()
@@ -72,6 +75,7 @@ class Scraper_bs:
     # Function to scrape the shape of the puzzle, which means this function returns
     # where the black tiles exist
     def scrape_puzzle_shape(self):
+        print("Now scraping puzzle shape...\n-------------")
         final_shape = []
         soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
         whole = soup.find('g', {'data-group' : 'cells'})
@@ -88,6 +92,7 @@ class Scraper_bs:
 
     # This function finds the numbers that are in the top left corners of the boxes
     def scrape_puzzle_numbers(self):
+        print("Now scraping puzzle numbers...\n-------------")
         final_numbers = []
         soup = BeautifulSoup(requests.get(self.url).content, 'html.parser')
         whole = soup.find('g', {'data-group' : 'cells'})

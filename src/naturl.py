@@ -35,6 +35,7 @@ class NLP:
     words that may relate to the clues of the puzzle
     '''
     def datamuse_close_neighs(self, clue, url_add):
+        print("Finding close neighbors from the Datamuse API\n-------------")
         clue = clue.lower()
         clue = clue.replace(" ", "+")
         results = []
@@ -53,6 +54,7 @@ class NLP:
     '''
     def purify_clues(self, clues, lengths):
         purified_clues = []
+        print("Purifying clues...\n-------------")
         for a_clue in clues:
             text = (a_clue[1].translate(str.maketrans('', '', string.punctuation))).lower()
             tokenized = word_tokenize(text)
@@ -67,6 +69,7 @@ class NLP:
 
     # returns the clues and their lengths that are scraped from the puzzle
     def get_scraped_clues(self):
+        print("Getting scraped clues from the scraper...\n-------------")
         scraper_obj = sc_bs()
         clues = scraper_obj.scrape_puzzle()
         self.shape = scraper_obj.scrape_puzzle_shape()
@@ -79,6 +82,7 @@ class NLP:
     5x5 and by checking
     '''
     def clue_lengths(self, shape_clues, num_clues):
+        print("Calculating clue lengths...\n-------------")
         rs = np.reshape(shape_clues, (5, 5))
         lens = [0] * num_clues
         ct = 0
@@ -102,6 +106,7 @@ class NLP:
 
     '''
     def initiate_guessing(self):
+        print("Starting to make educated guesses...\n-------------")
         combo = self.get_scraped_clues()
         clues = combo[0]
         lens = combo[1]
@@ -121,7 +126,6 @@ class NLP:
                     temp.append([purified_clues[ct], j + "s", 0.8])
                 elif len(j) > lens[ct]:
                     temp.append([purified_clues[ct], j[:lens[ct]], 0.5])
-                print(temp)
             final_g.append(temp)
 
         max_val = 0
