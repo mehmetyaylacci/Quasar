@@ -35,7 +35,7 @@ class NLP:
     words that may relate to the clues of the puzzle
     '''
     def datamuse_close_neighs(self, clue, url_add):
-        print("Finding close neighbors from the Datamuse API\n-------------")
+        print("Finding possible answers from the Datamuse API\n-------------")
         clue = clue.lower()
         clue = clue.replace(" ", "+")
         results = []
@@ -121,7 +121,6 @@ class NLP:
         for guess in guesses:
             temp = []
             for j in guess:
-                print(j)
                 if len(j) == lens[ct]:
                     temp.append([purified_clues[ct], j, 1])
                 elif len(j) == lens[ct] - 1:
@@ -141,5 +140,4 @@ class NLP:
                 rtr.append(max_obj)    
             max_val = 0
             print(max_obj)
-        # print(rtr)
         return rtr
