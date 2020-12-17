@@ -1,15 +1,11 @@
-# @authors: 
-# Burak Turksever
-# Mehmet Yaylaci
-# Eralp Kumbasar
-
 import PySimpleGUI as sg
 import random
 from bs4_scraper import Scraper_bs as sc_bs
 import time
 from datetime import datetime
 import threading
-from naturl import NLP 
+from naturl import NLP
+
 # constants
 PUZZLE_BOX = 100
 
@@ -21,20 +17,19 @@ font_clues = ('Times New Roman', 16)
 # themes and colors
 sg.change_look_and_feel("NeutralBlue")
 
-#layout of the puzzle designed according to the NYTimes puzzle template,
-#using PySimpleGUI
+#layout of the puzzle designed according to the NYTimes puzzle template
 layout = [
     [sg.Frame('', [
         [sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
         key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', size=(30, 10), font=font_clues), 
         sg.Text('', key='down', size=(30, 10), font=font_clues)], [sg.Text('', size=(20, 2), pad=((350, 0), (0, 0)), key='time')],
-        [sg.Button('Exit')]],  element_justification="left")
+        [sg.Button('Exit')]], element_justification="left")
     ]
 ]
 
 sg.Input(justification = 'center', size=(100, 1))
 
-window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1280, 700))
+window = sg.Window('XOxygen Puzzle Solver', layout, finalize=True, size=(1280, 700))
 
 g = window['graph']
 
@@ -54,10 +49,7 @@ def create_scraper():
     return [clues, blacks, numbers, letters]
 
 
-'''
-Displays the puzzle grid, including the black slots in their places, also putting
-the numbers to associate the places of the words with the given clues
-'''
+# Displays the puzzle grid with the black squares in place, also puts the numbers
 def display_puzzle():
     counter = 0
     for x in range(5):
@@ -77,8 +69,7 @@ def display_puzzle():
             counter += 1
 
 
-# Function to display the answers from the official solution of the puzzle,
-# downloaded directly from NYTimes website
+# Function to display the answers of the puzzle
 def display_puzzle_answers():
     counter = 0
     for x in range(5):
@@ -90,27 +81,15 @@ def display_puzzle_answers():
             counter += 1
 
 #function to display the answers of the scraped
-#puzzle found using nlp, for comparison with the official solution to
-#test the success of the nlp algorithm
+#puzzle found by using nlp
 def display_puzzle_answers_nlp(solving):
-    # print(solving)
     counter = 0
     letters = []
-    black_ct = 0
-    ct = 0
-    ans = ""
     for i in solving:
-        ans += str(i[1])
-    print(ans)
-    for i in range(len(blacks)):
-        if blacks[black_ct] == 1:
-            letters.append('-1')
-        else:
-            letters.append(ans[ct].upper())
-            ct += 1
-        black_ct += 1
-    print(letters)
-    
+        words = i[1]
+        for j in words:
+            for letter in j:
+                letters.append(letter.upper())
     for x in range(5):
         for y in range(5):
             if letters[counter] != '-1':
@@ -119,8 +98,7 @@ def display_puzzle_answers_nlp(solving):
                 font=font_letter)
             counter += 1
 
-# Function to clear the puzzle screen when the button
-# created through the GUI is pressed(gets rid of letters inputted)
+# Function to clear the puzzle screen (gets rid of letters inputted)
 def clear_puzzle():
     for x in range(5):
         for y in range(5):
@@ -133,7 +111,7 @@ def clear_puzzle():
 # Function to return current date and time in string format
 def time_func():
     current_date_time = str(datetime.now().strftime('%D %H:%M'))
-    return "XOXYGEN " + current_date_time
+    return "XOxygen " + current_date_time
 
 
 #
@@ -150,6 +128,8 @@ letters = scraped[3]
 
 across_string = "Across\n"
 down_string = "Down\n"
+
+print("Scraping done!\n-------------")
 
 nlp_obj = NLP()
 solving = nlp_obj.initiate_guessing()
@@ -169,6 +149,7 @@ window.FindElement('time').update(time_func())
 print("Displaying the puzzle\n-------------")
 display_puzzle()
 print("Displaying the puzzle answers as solved by the system\n-------------")
+# display_puzzle_answers()
 display_puzzle_answers_nlp(solving)
 
 while True:
