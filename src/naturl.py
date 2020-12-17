@@ -126,6 +126,7 @@ class NLP:
                     temp.append([purified_clues[ct], j + "s", 0.8])
                 elif len(j) > lens[ct]:
                     temp.append([purified_clues[ct], j[:lens[ct]], 0.5])
+            ct += 1
             final_g.append(temp)
 
         max_val = 0
