@@ -59,7 +59,7 @@ class NLP:
         for a_clue in clues:
             text = (a_clue[1].translate(str.maketrans('', '', string.punctuation))).lower()
             tokenized = word_tokenize(text)
-            with open("stop_words.txt", "r") as f:
+            with open("src/stop_words.txt", "r") as f:
                 stopwords = f.read().split("\n")
                 stopwords_removed = [word for word in tokenized if not word in stopwords]
                 stringified = ""
@@ -129,7 +129,6 @@ class NLP:
                     temp.append([purified_clues[ct], j[:lens[ct]], 0.5])
             ct += 1
             final_g.append(temp)
-            ct += 1
         max_val = 0
         rtr = []
         for i in final_g:
@@ -140,9 +139,5 @@ class NLP:
             if max_obj not in rtr:
                 rtr.append(max_obj)    
             max_val = 0
-<<<<<<< HEAD
             print(max_obj)
         return rtr
-=======
-        return rtr
->>>>>>> 216c53052be1e48b510824fbd41cfa79b5878648

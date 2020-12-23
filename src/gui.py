@@ -11,12 +11,12 @@ from datetime import datetime
 import threading
 from naturl import NLP 
 # constants
-PUZZLE_BOX = 100
+PUZZLE_BOX = 50
 
 # fonts
-font_letter = ("Arial Black", 40)
-font_number = ("Arial", 20)
-font_clues = ('Times New Roman', 16)
+font_letter = ("Arial Black", 20)
+font_number = ("Arial", 10)
+font_clues = ('Times New Roman', 14)
 
 # themes and colors
 sg.change_look_and_feel("NeutralBlue")
@@ -26,17 +26,22 @@ sg.change_look_and_feel("NeutralBlue")
 layout = [
     [sg.Frame('', [
         [sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
-        key='graph', change_submits=True, drag_submits=False), sg.Text('', key='across', size=(30, 10), font=font_clues), 
-        sg.Text('', key='down', size=(30, 10), font=font_clues)], [sg.Text('', size=(20, 2), pad=((350, 0), (0, 0)), key='time')],
+        key='graph', change_submits=True, drag_submits=False), 
+            sg.Text('', key='across', size=(30, 10), font=font_clues), 
+            sg.Text('', key='down', size=(30, 10), font=font_clues),
+            sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
+                      key='graph-true', change_submits=True, drag_submits=False)],
+        [sg.Text('', size=(20, 2), pad=((350, 0), (0, 0)), key='time')],
         [sg.Button('Exit')]],  element_justification="left")
     ]
 ]
 
 sg.Input(justification = 'center', size=(100, 1))
 
-window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1400, 700))
+window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1400, 400))
 
 g = window['graph']
+g2 = window['graph-true']
 
 
 #
@@ -58,7 +63,7 @@ def create_scraper():
 Displays the puzzle grid, including the black slots in their places, also putting
 the numbers to associate the places of the words with the given clues
 '''
-def display_puzzle():
+def display_puzzle(g):
     print("Displaying the puzzle grid...\n-------------")
     counter = 0
     for x in range(5):
@@ -80,7 +85,7 @@ def display_puzzle():
 
 # Function to display the answers from the official solution of the puzzle,
 # downloaded directly from NYTimes website
-def display_puzzle_answers():
+def display_puzzle_answers(g):
     counter = 0
     for x in range(5):
         for y in range(5):
@@ -93,7 +98,7 @@ def display_puzzle_answers():
 #function to display the answers of the scraped
 #puzzle found using nlp, for comparison with the official solution to
 #test the success of the nlp algorithm
-def display_puzzle_answers_nlp(solving):
+def display_puzzle_answers_nlp(solving, g):
     print("Putting the answers in their proper places...\n-------------")
     counter = 0
     letters = []
@@ -122,13 +127,13 @@ def display_puzzle_answers_nlp(solving):
 
 # Function to clear the puzzle screen when the button
 # created through the GUI is pressed(gets rid of letters inputted)
-def clear_puzzle():
+def clear_puzzle(g):
     for x in range(5):
         for y in range(5):
             g.draw_rectangle((y * PUZZLE_BOX, x * PUZZLE_BOX), 
             (y * PUZZLE_BOX + PUZZLE_BOX, x * PUZZLE_BOX + PUZZLE_BOX),
                 line_color='black', fill_color='white')
-    display_puzzle()
+    display_puzzle(g)
 
 
 # Function to return current date and time in string format
@@ -168,9 +173,14 @@ window.FindElement('down').update(down_string)
 window.FindElement('time').update(time_func())
 
 print("Displaying the puzzle\n-------------")
-display_puzzle()
+display_puzzle(g2)
 print("Displaying the puzzle answers as solved by the system\n-------------")
-display_puzzle_answers_nlp(solving)
+display_puzzle_answers_nlp(solving, g2)
+
+print("Displaying the real puzzle\n-------------")
+display_puzzle(g)
+print("Displaying the puzzle answers as given by the site\n-------------")
+display_puzzle_answers(g)
 
 while True:
     event, values = window.read()
@@ -179,7 +189,7 @@ while True:
     #     display_puzzle_answers()
     # if event in (None, "Clear"):
     #     print("Clearing the puzzle screen\n-------------")
-    #     clear_puzzle()
+    #     clear_puzzle(g)
     if event in (None, "Exit"):
         print('Exiting\n-------------')
         break
