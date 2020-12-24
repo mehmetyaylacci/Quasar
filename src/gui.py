@@ -25,19 +25,25 @@ sg.change_look_and_feel("Default1")
 #using PySimpleGUI
 layout = [
     [sg.Frame('', [
-        [sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
-        key='graph', change_submits=True, drag_submits=False), 
-            sg.Text('', key='across', size=(30, 10), font=font_clues), 
-            sg.Text('', key='down', size=(30, 10), font=font_clues),
+        [
             sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
-                      key='graph-true', change_submits=True, drag_submits=False)],
-        [sg.Text('', size=(20, 2), pad=((350, 0), (0, 0)), key='time')]],  element_justification="left")
+                     key='graph', change_submits=True, drag_submits=False, background_color="white"),
+            sg.Column([
+                [
+                    sg.Text('', key='across', size=(30, 10),
+                            font=font_clues, background_color="white"),
+                    sg.Text('', key='down', size=(30, 10), font=font_clues, background_color="white")]], element_justification="c", pad=(50, 50), background_color="white"),
+
+            sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
+                     key='graph-true', change_submits=True, drag_submits=False, background_color="white")],
+        [
+            sg.Text('', size=(20, 2), pad=((100, 0), (0, 0)), key='time', background_color="white")]],  element_justification="left", background_color="white")
     ]
 ]
 
 sg.Input(justification = 'center', size=(100, 1))
 
-window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1400, 400))
+window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1400, 400), background_color="white")
 
 g = window['graph']
 g2 = window['graph-true']
