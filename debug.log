@@ -1,0 +1,6 @@
+[1104/232843.614:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[1104/232843.628:ERROR:exception_snapshot_win.cc(99)] thread ID 20348 not found in process
+[1104/232843.679:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
+[1104/232843.680:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[1104/232843.680:ERROR:process_memory_win.cc(39)] Failed to initialize ProcessInfo.
+[1104/232843.680:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
