@@ -19,7 +19,7 @@ font_number = ("Arial", 10)
 font_clues = ('Times New Roman', 14)
 
 # themes and colors
-sg.change_look_and_feel("NeutralBlue")
+sg.change_look_and_feel("Default1")
 
 #layout of the puzzle designed according to the NYTimes puzzle template,
 #using PySimpleGUI
@@ -31,8 +31,7 @@ layout = [
             sg.Text('', key='down', size=(30, 10), font=font_clues),
             sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
                       key='graph-true', change_submits=True, drag_submits=False)],
-        [sg.Text('', size=(20, 2), pad=((350, 0), (0, 0)), key='time')],
-        [sg.Button('Exit')]],  element_justification="left")
+        [sg.Text('', size=(20, 2), pad=((350, 0), (0, 0)), key='time')]],  element_justification="left")
     ]
 ]
 
@@ -77,8 +76,8 @@ def display_puzzle(g):
                 (y * PUZZLE_BOX + PUZZLE_BOX, x * PUZZLE_BOX + PUZZLE_BOX),
                 line_color='black', fill_color='white')
             if numbers[counter] != -1:
-                g.draw_text('{}'.format(numbers[counter]), (y * PUZZLE_BOX + 20,
-                x * PUZZLE_BOX + 20),
+                g.draw_text('{}'.format(numbers[counter]), (y * PUZZLE_BOX + 10,
+                x * PUZZLE_BOX + 10),
                 font=font_number)
             counter += 1
 
