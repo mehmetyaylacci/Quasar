@@ -26,7 +26,7 @@ sg.change_look_and_feel("Default1")
 layout = [
     [sg.Frame('', [
         [
-            sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
+            sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 20, PUZZLE_BOX * 5 + 20), graph_bottom_left=(0, PUZZLE_BOX * 5 + 20), graph_top_right=(PUZZLE_BOX * 5 + 20, 0),
                      key='graph', change_submits=True, drag_submits=False, background_color="white"),
             sg.Column([
                 [
@@ -34,14 +34,14 @@ layout = [
                             font=font_clues, background_color="white"),
                     sg.Text('', key='down', size=(30, 10), font=font_clues, background_color="white")]], element_justification="c", pad=(50, 50), background_color="white"),
 
-            sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 25, PUZZLE_BOX * 5 + 25), graph_bottom_left=(0, PUZZLE_BOX * 5), graph_top_right=(PUZZLE_BOX * 5, 0),
+            sg.Graph(canvas_size=(PUZZLE_BOX * 5 + 20, PUZZLE_BOX * 5 + 20), graph_bottom_left=(0, PUZZLE_BOX * 5 + 20), graph_top_right=(PUZZLE_BOX * 5 + 20, 0),
                      key='graph-true', change_submits=True, drag_submits=False, background_color="white")],
         [
             sg.Text('', size=(20, 2), pad=((100, 0), (0, 0)), key='time', background_color="white")]],  element_justification="left", background_color="white")
     ]
 ]
 
-sg.Input(justification = 'center', size=(100, 1))
+# sg.Input(justification = 'center', size=(100, 1))
 
 window = sg.Window('XOXYGEN Puzzle Solver', layout, finalize=True, size=(1400, 400), background_color="white")
 
@@ -74,16 +74,18 @@ def display_puzzle(g):
     for x in range(5):
         for y in range(5):
             if blacks[counter] == 1:
-                g.draw_rectangle((y * PUZZLE_BOX, x * PUZZLE_BOX),
-                (y * PUZZLE_BOX + PUZZLE_BOX, x * PUZZLE_BOX + PUZZLE_BOX),
+                g.draw_rectangle((y * PUZZLE_BOX + 3, x * PUZZLE_BOX + 3),
+                                 (y * PUZZLE_BOX + PUZZLE_BOX + 3,
+                                  x * PUZZLE_BOX + PUZZLE_BOX + 3),
                 line_color='black', fill_color='black')
             else:
-                g.draw_rectangle((y * PUZZLE_BOX, x * PUZZLE_BOX),
-                (y * PUZZLE_BOX + PUZZLE_BOX, x * PUZZLE_BOX + PUZZLE_BOX),
+                g.draw_rectangle((y * PUZZLE_BOX + 3, x * PUZZLE_BOX + 3),
+                                 (y * PUZZLE_BOX + PUZZLE_BOX +
+                                  3, x * PUZZLE_BOX + PUZZLE_BOX + 3),
                 line_color='black', fill_color='white')
             if numbers[counter] != -1:
-                g.draw_text('{}'.format(numbers[counter]), (y * PUZZLE_BOX + 10,
-                x * PUZZLE_BOX + 10),
+                g.draw_text('{}'.format(numbers[counter]), (y * PUZZLE_BOX + 10 + 3,
+                                                            x * PUZZLE_BOX + 10 + 3),
                 font=font_number)
             counter += 1
 
@@ -95,8 +97,8 @@ def display_puzzle_answers(g):
     for x in range(5):
         for y in range(5):
             if letters[counter] != '-1':
-                g.draw_text('{}'.format(letters[counter]), (y * PUZZLE_BOX + (PUZZLE_BOX/2),
-                x * PUZZLE_BOX + (PUZZLE_BOX/2)), 
+                g.draw_text('{}'.format(letters[counter]), (y * PUZZLE_BOX + (PUZZLE_BOX/2) + 3,
+                                                            x * PUZZLE_BOX + (PUZZLE_BOX/2) + 3),
                 font=font_letter)
             counter += 1
 
@@ -125,20 +127,10 @@ def display_puzzle_answers_nlp(solving, g):
     for x in range(5):
         for y in range(5):
             if letters[counter] != '-1':
-                g.draw_text('{}'.format(letters[counter]), (y * PUZZLE_BOX + (PUZZLE_BOX/2),
-                x * PUZZLE_BOX + (PUZZLE_BOX/2)), 
+                g.draw_text('{}'.format(letters[counter]), (y * PUZZLE_BOX + (PUZZLE_BOX/2) + 3,
+                                                            x * PUZZLE_BOX + (PUZZLE_BOX/2) + 3),
                 font=font_letter)
             counter += 1
-
-# Function to clear the puzzle screen when the button
-# created through the GUI is pressed(gets rid of letters inputted)
-def clear_puzzle(g):
-    for x in range(5):
-        for y in range(5):
-            g.draw_rectangle((y * PUZZLE_BOX, x * PUZZLE_BOX), 
-            (y * PUZZLE_BOX + PUZZLE_BOX, x * PUZZLE_BOX + PUZZLE_BOX),
-                line_color='black', fill_color='white')
-    display_puzzle(g)
 
 
 # Function to return current date and time in string format
