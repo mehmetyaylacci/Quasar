@@ -60,7 +60,7 @@ def create_scraper():
     clues = scraper_obj.scrape_puzzle()
     blacks = scraper_obj.scrape_puzzle_shape()
     numbers = scraper_obj.scrape_puzzle_numbers()
-    letters = scraper_obj.scrape_sols()
+    letters = [] # scraper_obj.scrape_sols()inpui
     return [clues, blacks, numbers, letters]
 
 
@@ -143,13 +143,30 @@ def time_func():
 # -----------------------END-----------------------
 #
 
+def split(word):
+    answer = []
+
+    count = 0
+
+    while count < len(word):
+        if word[count] == "-":
+            answer.append("-1")
+            count +=1
+        else:
+            answer.append(word[count].upper())
+        
+        count += 1
+    
+    return answer
+
 print("\n-------------\nNow scraping the NYT webpage for the puzzle\n-------------")
 scraped = create_scraper()
 print("Scraping done!\n-------------")
 clues = scraped[0]
 blacks = scraped[1]
 numbers = scraped[2]
-letters = scraped[3]
+letters = scraped[3] # letters = []
+letters = split(input("Give letter")) # [-1, 'S', 'N', 'O', 'W', -1, 'A', 'U', 'R', 'A', 'B', 'U', 'D', 'D', 'Y', 'E', 'D', 'G', 'E', -1, 'T', 'I', 'E', 'R', -1]
 
 across_string = "Across\n"
 down_string = "Down\n"
